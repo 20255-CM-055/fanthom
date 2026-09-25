@@ -215,6 +215,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .page-description { margin: 8px 0 0; color: #858b9a; font-size: 12px; line-height: 1.6; }
 .heading-note { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; color: #8b91a0; font-size: 10px; white-space: nowrap; }
 .heading-note svg { color: #6474ef; }
+.dashboard-heading-actions { display: flex; align-items: center; gap: 15px; margin-bottom: 3px; }
+.dashboard-ask-button { display: inline-flex; min-height: 33px; align-items: center; gap: 7px; padding: 0 11px; border: 1px solid #e2e5fa; border-radius: 7px; background: #f8f8ff; color: #5969d8; font-size: 10px; font-weight: 600; transition: border-color .15s, background .15s, color .15s; }
+.dashboard-ask-button:hover { border-color: #cbd0f5; background: #f0f1ff; color: #4659d0; }
+.dashboard-ask-button svg { color: #6979e5; }
 .library-toolbar { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 10px; padding: 0 1px; }
 .library-count { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; color: #83899a; font-size: 11px; }
 .library-count strong { color: #343b4d; font-size: 12px; font-weight: 700; }
@@ -366,6 +370,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .page h1 { font-size: 26px; }
   .page-description { max-width: 350px; font-size: 11px; }
   .heading-note { display: none; }
+  .dashboard-heading-actions { align-self: center; }
+  .dashboard-ask-button { min-height: 31px; padding: 0 9px; font-size: 9px; white-space: nowrap; }
   .library-toolbar { align-items: flex-start; flex-direction: column; gap: 10px; margin-bottom: 13px; }
   .filter-controls { width: 100%; }
   .select-control { flex: 1; justify-content: flex-start; }

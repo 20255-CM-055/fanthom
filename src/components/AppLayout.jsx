@@ -35,7 +35,7 @@ export function AppLayout({ children }) {
   function submitSearch(event) {
     event.preventDefault()
     const trimmed = query.trim()
-    navigate(trimmed ? `/calls?q=${encodeURIComponent(trimmed)}` : '/calls')
+    navigate(trimmed ? `/search?q=${encodeURIComponent(trimmed)}` : '/search')
   }
 
   return (

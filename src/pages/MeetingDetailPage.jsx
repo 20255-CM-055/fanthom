@@ -9,7 +9,7 @@ import {
   Sparkles,
   Video,
 } from 'lucide-react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { MeetingHighlightsWorkspace } from '../components/MeetingHighlightsWorkspace'
 import { MeetingPlayer } from '../components/MeetingPlayer'
 import { MeetingSummaryWorkspace } from '../components/MeetingSummaryWorkspace'
@@ -17,7 +17,7 @@ import { AddHighlightModal, ShareHighlightModal } from '../components/MeetingOve
 import { ParticipantAvatars } from '../components/ParticipantAvatars'
 import { TranscriptWorkspace } from '../components/TranscriptWorkspace'
 import { getMeetingById, getMeetingExperience } from '../data/meetings'
-import { formatClock, readMeetingState, writeMeetingState } from '../utils/meetingState'
+import { formatClock, readMeetingState, toClockSeconds, writeMeetingState } from '../utils/meetingState'
 import '../styles/meeting-detail.css'
 
 const meetingTabs = [
@@ -26,14 +26,16 @@ const meetingTabs = [
   { id: 'highlights', label: 'Highlights', icon: CheckCircle2 },
 ]
 
-function MeetingDetailContent({ meeting }) {
+function MeetingDetailContent({ meeting, searchParams }) {
   const actionStorageKey = `fathom:completed-actions:${meeting.id}`
   const highlightStorageKey = `fathom:custom-highlights:${meeting.id}`
-  const [currentTime, setCurrentTime] = useState(0)
+  const requestedTime = toClockSeconds(searchParams.get('t'))
+  const initialSegmentId = searchParams.get('segment')
+  const [currentTime, setCurrentTime] = useState(() => Math.min(requestedTime ?? 0, meeting.durationSeconds))
   const [isPlaying, setIsPlaying] = useState(false)
-  const [selectedTab, setSelectedTab] = useState('summary')
+  const [selectedTab, setSelectedTab] = useState(() => searchParams.get('tab') === 'transcript' ? 'transcript' : 'summary')
   const [selectedTemplate, setSelectedTemplate] = useState('general')
-  const [transcriptSearch, setTranscriptSearch] = useState('')
+  const [transcriptSearch, setTranscriptSearch] = useState(() => searchParams.get('q') || '')
   const [storageWarning, setStorageWarning] = useState('')
   const [completedActions, setCompletedActions] = useState(() => {
     const saved = readMeetingState(actionStorageKey, {})
@@ -203,6 +205,7 @@ function MeetingDetailContent({ meeting }) {
             transcript={meeting.transcript}
             currentTime={currentTime}
             activeSegmentId={activeSegment?.id}
+            focusedSegmentId={initialSegmentId}
             search={transcriptSearch}
             containerRef={transcriptContainerRef}
             onSearchChange={setTranscriptSearch}
@@ -234,6 +237,7 @@ function MeetingDetailContent({ meeting }) {
 
 export function MeetingDetailPage() {
   const { meetingId } = useParams()
+  const [searchParams] = useSearchParams()
   const meeting = getMeetingById(meetingId)
 
   if (!meeting) {
@@ -246,6 +250,14 @@ export function MeetingDetailPage() {
       </div>
     )
   }
+  const targetSegment = searchParams.get('segment')
+  const matchingSegment = targetSegment && getMeetingExperience(meeting).transcript.some((segment) => segment.id === targetSegment)
 
-  return <MeetingDetailContent key={meeting.id} meeting={getMeetingExperience(meeting)} />
+  return (
+    <MeetingDetailContent
+      key={`${meeting.id}-${searchParams.toString()}`}
+      meeting={getMeetingExperience(meeting)}
+      searchParams={matchingSegment ? searchParams : new URLSearchParams()}
+    />
+  )
 }

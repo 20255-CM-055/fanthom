@@ -28,6 +28,7 @@ export function formatClock(seconds) {
 
 export function toClockSeconds(value) {
   if (typeof value !== 'string') return null
+  if (/^\d+(?:\.\d+)?$/.test(value)) return Number(value)
   const parts = value.split(':').map(Number)
   if (parts.length < 2 || parts.some((part) => !Number.isFinite(part))) return null
   if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2]

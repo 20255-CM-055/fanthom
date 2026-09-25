@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
-import { CalendarDays, ChevronDown, ListFilter, SearchX, Video } from 'lucide-react'
-import { useSearchParams } from 'react-router-dom'
+import { CalendarDays, ChevronDown, ListFilter, SearchX, Sparkles, Video } from 'lucide-react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { MeetingCard } from '../components/MeetingCard'
 import { meetings } from '../data/meetings'
 
@@ -52,7 +52,10 @@ export function MyCallsPage() {
           <h1>My Calls</h1>
           <p className="page-description">All your conversations, organized and ready when you need them.</p>
         </div>
-        <div className="heading-note"><Video size={15} />Recordings sync automatically</div>
+        <div className="dashboard-heading-actions">
+          <div className="heading-note"><Video size={15} />Recordings sync automatically</div>
+          <Link className="dashboard-ask-button" to="/ask"><Sparkles size={14} />Ask Fathom</Link>
+        </div>
       </div>
 
       <section className="library-toolbar" aria-label="Filter meetings">

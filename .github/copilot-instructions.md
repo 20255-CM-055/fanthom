@@ -2,7 +2,7 @@
 
 ## Purpose and architecture
 
-This repository contains a React/Vite meeting-intelligence UI and the existing Copilot CLI conversation capture utility. `src/data/meetings.js` is the single source of seeded meeting data, including summary templates, transcript segments, highlights, action items, and attendees; `getMeetingExperience` normalizes older seeded calls to the detail-page shape. `src/routes/router.jsx` connects the persistent `AppLayout` shell and sidebar to the calls library, meeting-specific detail route, and secondary navigation placeholders. The dashboard filters and searches the shared meeting data; meeting cards link to `/calls/:meetingId`. `MeetingDetailPage` coordinates playback time, active transcript segment, tabs, and locally saved meeting actions/highlights across the reusable detail components.
+This repository contains a React/Vite meeting-intelligence UI and the existing Copilot CLI conversation capture utility. `src/data/meetings.js` is the single source of seeded meeting data, including summary templates, transcript segments, highlights, action items, and attendees; `getMeetingExperience` normalizes older seeded calls to the detail-page shape. `src/data/meetingSearch.js` indexes the normalized meeting transcripts for global search and deterministic Ask Fathom answers. Search and Ask references share `meetingTimestampUrl` so result links open the matching detail transcript segment at its timestamp. `src/routes/router.jsx` connects the persistent `AppLayout` shell and sidebar to the calls library, cross-meeting search, Ask Fathom, meeting-specific detail route, and secondary navigation placeholders. `MeetingDetailPage` coordinates playback time, active transcript segment, tabs, and locally saved meeting actions/highlights across the reusable detail components.
 
 The separate `capture-agent-logs.ps1` utility scans `%USERPROFILE%\.copilot\session-state\<session-id>\events.jsonl`, tracks read offsets and pending prompts in a temporary state file under `$env:TEMP`, and appends prompt/response entries to `.agent-logs/`. A normal invocation scans once; `-Watch` repeats the scan. `CAPTURE-TEST.md` describes the capture setup and its verification.
 
@@ -20,6 +20,7 @@ For the separate capture utility, scan available sessions once with `.\capture-a
 ## Repository-specific conventions
 
 - Keep reusable meeting metadata in `src/data/meetings.js`, not duplicated in page components; extend this shared shape when adding summaries, transcript excerpts, highlights, or action items.
+- Extend cross-meeting transcript search and Ask Fathom through `src/data/meetingSearch.js`; route meeting references with `src/utils/meetingLinks.js` so transcript timestamps and segment IDs stay synchronized.
 - Keep detail interactions coordinated through the meeting page and its shared meeting data; persist user-created highlights and completed action IDs with meeting-specific localStorage keys in `src/pages/MeetingDetailPage.jsx`.
 - Keep the existing `.agent-logs/` as intentional repository output, not disposable build artifacts. Do not add it to `.gitignore`, rewrite historical entries, or delete entries to tidy them.
 - Preserve the per-session Markdown format and UTC timestamps; logs are append-oriented and are intended to be committed.

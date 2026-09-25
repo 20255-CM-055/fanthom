@@ -18,6 +18,7 @@ export function TranscriptWorkspace({
   transcript,
   currentTime,
   activeSegmentId,
+  focusedSegmentId,
   search,
   containerRef,
   onSearchChange,
@@ -61,7 +62,7 @@ export function TranscriptWorkspace({
         {matchingSegments.length ? matchingSegments.map((segment) => (
           <article
             id={`transcript-${segment.id}`}
-            className={`transcript-segment${segment.id === activeSegmentId ? ' is-active' : ''}`}
+            className={`transcript-segment${segment.id === activeSegmentId ? ' is-active' : ''}${segment.id === focusedSegmentId ? ' is-search-target' : ''}`}
             key={segment.id}
             data-segment-id={segment.id}
           >

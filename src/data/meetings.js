@@ -286,6 +286,8 @@ export const meetings = [
     transcriptSnippet: [
       { time: '00:00', speaker: 'Jamie Lee', text: 'Could you walk us through what happens after a new opportunity changes regions?' },
       { time: '07:12', speaker: 'Morgan Patel', text: 'The handoff itself is in a spreadsheet. The hard part is knowing who owns the next step.' },
+      { time: '12:40', speaker: 'Morgan Patel', text: 'Our onboarding stalls when a new region is involved. The customer has already entered their details, but we still have to explain the handoff and who will help them finish setup.' },
+      { time: '18:05', speaker: 'Jamie Lee', text: 'That sounds like an onboarding issue as much as a routing issue. We should make the next owner visible before the customer has to ask.' },
     ],
   },
   {
@@ -412,6 +414,8 @@ export const meetings = [
     ],
     transcriptSnippet: [
       { time: '00:00', speaker: 'Jordan Ellis', text: 'The first team is getting value; for the next group we want to make setup a little less hands-on.' },
+      { time: '12:16', speaker: 'Jordan Ellis', text: 'We hit an onboarding issue when the second department joined. Admins were not sure which workspace settings to copy, and the permissions guide came after they had already started setup.' },
+      { time: '18:42', speaker: 'Casey Nguyen', text: 'We can add a short onboarding walkthrough before the next rollout and give each admin a clear setup owner.' },
     ],
   },
   {
