@@ -17,6 +17,7 @@ import { AddHighlightModal, ShareHighlightModal } from '../components/MeetingOve
 import { ParticipantAvatars } from '../components/ParticipantAvatars'
 import { TranscriptWorkspace } from '../components/TranscriptWorkspace'
 import { getMeetingById, getMeetingExperience } from '../data/meetings'
+import { getPreferences, SUMMARY_TEMPLATE_IDS } from '../utils/appPreferences'
 import { formatClock, readMeetingState, toClockSeconds, writeMeetingState } from '../utils/meetingState'
 import '../styles/meeting-detail.css'
 
@@ -34,7 +35,12 @@ function MeetingDetailContent({ meeting, searchParams }) {
   const [currentTime, setCurrentTime] = useState(() => Math.min(requestedTime ?? 0, meeting.durationSeconds))
   const [isPlaying, setIsPlaying] = useState(false)
   const [selectedTab, setSelectedTab] = useState(() => searchParams.get('tab') === 'transcript' ? 'transcript' : 'summary')
-  const [selectedTemplate, setSelectedTemplate] = useState('general')
+  const [selectedTemplate, setSelectedTemplate] = useState(() => {
+    const preferred = getPreferences().defaultSummaryTemplate
+    return SUMMARY_TEMPLATE_IDS.includes(preferred) && meeting.summaryTemplates[preferred]
+      ? preferred
+      : 'general'
+  })
   const [transcriptSearch, setTranscriptSearch] = useState(() => searchParams.get('q') || '')
   const [storageWarning, setStorageWarning] = useState('')
   const [completedActions, setCompletedActions] = useState(() => {
