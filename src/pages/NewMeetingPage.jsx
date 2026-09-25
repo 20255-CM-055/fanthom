@@ -47,8 +47,8 @@ export function NewMeetingPage() {
 
   async function endMeeting() {
     setPhase('processing')
-    setProcessingStep(0)
-    for (let step = 1; step < processingSteps.length; step += 1) {
+    setProcessingStep(1)
+    for (let step = 2; step < processingSteps.length; step += 1) {
       await new Promise((resolve) => window.setTimeout(resolve, 750))
       setProcessingStep(step)
     }

@@ -151,8 +151,9 @@ function MeetingDetailContent({ meeting, searchParams }) {
             type="button"
             onClick={() => setShareTarget(highlights[0] || null)}
             disabled={!highlights.length}
+            title={highlights.length ? 'Share a meeting highlight' : 'Add a highlight from the transcript before sharing'}
           >
-            <Share2 size={15} />Share
+            <Share2 size={15} />{highlights.length ? 'Share' : 'No highlights to share'}
           </button>
         </div>
       </header>
@@ -208,6 +209,7 @@ function MeetingDetailContent({ meeting, searchParams }) {
         )}
         {selectedTab === 'transcript' && (
           <TranscriptWorkspace
+            simulated={meeting.simulatedCapture}
             transcript={meeting.transcript}
             currentTime={currentTime}
             activeSegmentId={activeSegment?.id}

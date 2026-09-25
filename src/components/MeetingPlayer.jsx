@@ -51,7 +51,7 @@ export function MeetingPlayer({
     <section className={`player-card${expanded ? ' player-expanded' : ''}`} aria-label="Meeting playback">
       <div className="player-stage">
         <div className="stage-topline">
-          <span className="stage-status"><span />RECORDING READY</span>
+          <span className={`stage-status${meeting.simulatedCapture ? ' stage-status-simulated' : ''}`}><span />{meeting.simulatedCapture ? 'SIMULATED PLAYBACK' : 'RECORDING READY'}</span>
           <span className="stage-date">{new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(meeting.date))}</span>
         </div>
         <div className="stage-visual">

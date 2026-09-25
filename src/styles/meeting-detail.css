@@ -24,6 +24,8 @@
 .meeting-ready > span, .stage-status > span { width: 6px; height: 6px; border-radius: 50%; background: #55b981; box-shadow: 0 0 0 3px #eaf7ef; }
 .meeting-ready.meeting-simulated { color: #8773c8; }
 .meeting-ready.meeting-simulated > span { background: #8c78d5; box-shadow: 0 0 0 3px #f0edff; }
+.stage-status.stage-status-simulated { color: #c5c2ef; }
+.stage-status.stage-status-simulated > span { background: #a796e7; box-shadow: 0 0 0 3px rgba(167, 150, 231, .15); }
 .meeting-detail-header h1 { overflow-wrap: anywhere; font-size: clamp(22px, 2.6vw, 29px); letter-spacing: -.8px; }
 .meeting-detail-metadata { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-top: 9px; color: #7f8695; font-size: 11px; }
 .meeting-detail-metadata > span:not(.detail-meta-separator) { display: inline-flex; align-items: center; gap: 5px; }
