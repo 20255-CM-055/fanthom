@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
-import { CalendarDays, ChevronDown, ListFilter, SearchX, Sparkles, Video } from 'lucide-react'
+import { CalendarDays, ChevronDown, ListFilter, Plus, SearchX, Sparkles } from 'lucide-react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { MeetingCard } from '../components/MeetingCard'
-import { meetings } from '../data/meetings'
+import { getMeetings } from '../data/meetings'
 
 const dateRanges = [
   { value: '30', label: 'Last 30 days' },
@@ -17,6 +17,7 @@ export function MyCallsPage() {
   const [searchParams] = useSearchParams()
   const [dateRange, setDateRange] = useState('30')
   const [meetingType, setMeetingType] = useState('All types')
+  const [meetings] = useState(getMeetings)
   const query = (searchParams.get('q') || '').trim().toLowerCase()
 
   const visibleMeetings = useMemo(() => {
@@ -42,7 +43,7 @@ export function MyCallsPage() {
         return searchableText.includes(query)
       })
       .sort((a, b) => new Date(b.date) - new Date(a.date))
-  }, [dateRange, meetingType, query])
+  }, [dateRange, meetingType, query, meetings])
 
   return (
     <div className="page dashboard-page">
@@ -53,7 +54,7 @@ export function MyCallsPage() {
           <p className="page-description">All your conversations, organized and ready when you need them.</p>
         </div>
         <div className="dashboard-heading-actions">
-          <div className="heading-note"><Video size={15} />Recordings sync automatically</div>
+          <Link className="new-meeting-button" to="/new-meeting"><Plus size={15} />New Meeting</Link>
           <Link className="dashboard-ask-button" to="/ask"><Sparkles size={14} />Ask Fathom</Link>
         </div>
       </div>

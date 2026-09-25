@@ -7,6 +7,7 @@ import { SearchPage } from '../pages/SearchPage'
 import { AskFathomPage } from '../pages/AskFathomPage'
 import { CalendarPage } from '../pages/CalendarPage'
 import { SettingsPage } from '../pages/SettingsPage'
+import { NewMeetingPage } from '../pages/NewMeetingPage'
 
 function withLayout(element) {
   return <AppLayout>{element}</AppLayout>
@@ -15,6 +16,7 @@ function withLayout(element) {
 export const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/calls" replace /> },
   { path: '/calls', element: withLayout(<MyCallsPage />) },
+  { path: '/new-meeting', element: withLayout(<NewMeetingPage />) },
   { path: '/calls/:meetingId', element: withLayout(<MeetingDetailPage />) },
   { path: '/search', element: withLayout(<SearchPage />) },
   { path: '/ask', element: withLayout(<AskFathomPage />) },

@@ -216,6 +216,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .heading-note { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; color: #8b91a0; font-size: 10px; white-space: nowrap; }
 .heading-note svg { color: #6474ef; }
 .dashboard-heading-actions { display: flex; align-items: center; gap: 15px; margin-bottom: 3px; }
+.new-meeting-button { display: inline-flex; min-height: 33px; align-items: center; gap: 7px; padding: 0 11px; border: 1px solid #455cf5; border-radius: 7px; background: #455cf5; color: #fff; font-size: 10px; font-weight: 600; box-shadow: 0 1px 2px rgba(42, 57, 170, .12); transition: border-color .15s, background .15s, box-shadow .15s; }
+.new-meeting-button:hover { border-color: #3549dc; background: #3549dc; box-shadow: 0 3px 9px rgba(42, 57, 170, .2); }
+.new-meeting-button:focus-visible { outline: 3px solid rgba(69, 92, 245, .3); outline-offset: 2px; }
 .dashboard-ask-button { display: inline-flex; min-height: 33px; align-items: center; gap: 7px; padding: 0 11px; border: 1px solid #e2e5fa; border-radius: 7px; background: #f8f8ff; color: #5969d8; font-size: 10px; font-weight: 600; transition: border-color .15s, background .15s, color .15s; }
 .dashboard-ask-button:hover { border-color: #cbd0f5; background: #f0f1ff; color: #4659d0; }
 .dashboard-ask-button svg { color: #6979e5; }

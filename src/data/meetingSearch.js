@@ -1,4 +1,4 @@
-import { getMeetingExperience, meetings } from './meetings.js'
+import { getMeetingExperience, getMeetings } from './meetings.js'
 
 function normalize(value) {
   return value.toLowerCase().trim().replace(/[^\p{L}\p{N}]+/gu, ' ')
@@ -15,13 +15,15 @@ function formatTimestamp(seconds) {
   return `${String(minutes).padStart(2, '0')}:${String(remainder).padStart(2, '0')}`
 }
 
-const indexedMeetings = meetings.map((meeting) => getMeetingExperience(meeting))
+function getIndexedMeetings() {
+  return getMeetings().map((meeting) => getMeetingExperience(meeting))
+}
 
 export function searchMeetingTranscripts(query) {
   const terms = normalize(query).split(/\s+/).filter(Boolean)
   if (!terms.length) return []
 
-  return indexedMeetings
+  return getIndexedMeetings()
     .flatMap((meeting) => meeting.transcript.map((segment) => ({ meeting, segment })))
     .filter(({ segment }) => {
       const searchable = normalize(`${segment.speaker} ${segment.text}`)
@@ -63,6 +65,7 @@ function makeActionItemReference(meeting, item, query) {
 
 function findMeetingReferences(matcher, query) {
   const references = []
+  const indexedMeetings = getIndexedMeetings()
   for (const meeting of indexedMeetings) {
     const segment = meeting.transcript.find(({ speaker, text }) => matcher.test(`${speaker} ${text}`))
     if (segment) {
@@ -99,7 +102,7 @@ export function answerMeetingQuestion(question) {
   }
 
   if (/\b(open|outstanding|remaining|incomplete|uncompleted)\b/.test(normalized) && /\b(action|actions|items|tasks|follow up|followups)\b/.test(normalized)) {
-    const references = indexedMeetings.flatMap((meeting) => {
+    const references = getIndexedMeetings().flatMap((meeting) => {
       let completed = {}
       try {
         completed = JSON.parse(window.localStorage.getItem(`fathom:completed-actions:${meeting.id}`) || '{}')
@@ -118,6 +121,7 @@ export function answerMeetingQuestion(question) {
   }
 
   if (/\bcustomer(s)?\b/.test(normalized) && /\bonboarding\b/.test(normalized)) {
+    const indexedMeetings = getIndexedMeetings()
     const references = findMeetingReferences(/\bonboarding\b/i, 'onboarding')
       .filter(({ meetingId }) => {
         const meeting = indexedMeetings.find((item) => item.id === meetingId)

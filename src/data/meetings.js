@@ -1,4 +1,8 @@
+import { readMeetingState, writeMeetingState } from '../utils/meetingState'
+
 const attendee = (name, role) => ({ name, role })
+
+const simulatedMeetingsStorageKey = 'fathom:simulated-meetings'
 
 export const meetings = [
   {
@@ -447,7 +451,65 @@ export const meetings = [
 ]
 
 export function getMeetingById(meetingId) {
-  return meetings.find((meeting) => meeting.id === meetingId)
+  return getMeetings().find((meeting) => meeting.id === meetingId)
+}
+
+export function getMeetings() {
+  const stored = readMeetingState(simulatedMeetingsStorageKey, [])
+  const simulatedMeetings = Array.isArray(stored)
+    ? stored.filter((meeting) => meeting && typeof meeting.id === 'string')
+    : []
+  return [...simulatedMeetings, ...meetings]
+}
+
+export function saveSimulatedMeeting({ title, platform, durationSeconds }) {
+  const stored = readMeetingState(simulatedMeetingsStorageKey, [])
+  const simulatedMeetings = Array.isArray(stored) ? stored : []
+  const safeTitle = title.trim() || 'Simulated meeting'
+  const duration = Math.max(60, Math.floor(durationSeconds))
+  const date = new Date().toISOString()
+  const id = `demo-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+  const meeting = {
+    id,
+    title: safeTitle,
+    date,
+    durationSeconds: duration,
+    durationMinutes: Math.ceil(duration / 60),
+    type: 'Team Meeting',
+    status: 'Ready',
+    simulatedCapture: true,
+    platform,
+    participants: [attendee('Jordan Davis', 'Meeting host')],
+    summary: `This is a simulated meeting capture for “${safeTitle}” on ${platform}. No audio was recorded and no speech was transcribed.`,
+    highlights: [],
+    actionItems: [],
+    transcript: [
+      {
+        id: `${id}-segment-1`,
+        timestamp: 0,
+        time: '00:00',
+        speaker: 'Fathom demo',
+        text: `Simulated capture started for “${safeTitle}” on ${platform}. No audio or participant speech is captured in this demo.`,
+      },
+      {
+        id: `${id}-segment-2`,
+        timestamp: Math.floor(duration / 2),
+        time: formatTranscriptTimestamp(Math.floor(duration / 2)),
+        speaker: 'Fathom demo',
+        text: 'The simulated recording has ended. Connect a meeting capture provider to generate a real transcript and summary.',
+      },
+    ],
+  }
+  return writeMeetingState(simulatedMeetingsStorageKey, [meeting, ...simulatedMeetings]) ? meeting : null
+}
+
+function formatTranscriptTimestamp(seconds) {
+  const hours = Math.floor(seconds / 3600)
+  const minutes = Math.floor((seconds % 3600) / 60)
+  const remainder = seconds % 60
+  return hours
+    ? [hours, minutes, remainder].map((part) => String(part).padStart(2, '0')).join(':')
+    : [minutes, remainder].map((part) => String(part).padStart(2, '0')).join(':')
 }
 
 function timestampFromClock(clock) {

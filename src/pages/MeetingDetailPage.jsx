@@ -131,7 +131,7 @@ function MeetingDetailContent({ meeting, searchParams }) {
 
       <header className="meeting-detail-header">
         <div className="meeting-detail-title-area">
-          <div className="meeting-detail-kicker"><span className="meeting-type-pill"><Video size={13} />{meeting.type}</span><span className="meeting-ready"><span />Recording ready</span></div>
+          <div className="meeting-detail-kicker"><span className="meeting-type-pill"><Video size={13} />{meeting.type}</span><span className={`meeting-ready${meeting.simulatedCapture ? ' meeting-simulated' : ''}`}><span />{meeting.simulatedCapture ? 'Simulated recording' : 'Recording ready'}</span></div>
           <h1>{meeting.title}</h1>
           <div className="meeting-detail-metadata">
             <span>{isToday ? `Today · ${todayTime}` : formattedDate}</span>

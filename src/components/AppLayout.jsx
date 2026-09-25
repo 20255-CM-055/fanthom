@@ -5,6 +5,7 @@ import { Sidebar } from './Sidebar'
 
 function getPageLabel(pathname) {
   if (pathname.startsWith('/calls/')) return 'Meeting details'
+  if (pathname === '/new-meeting') return 'New Meeting'
   const labels = {
     '/calls': 'My Calls',
     '/search': 'Search',
