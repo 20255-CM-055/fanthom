@@ -8,7 +8,7 @@ Meeting information is seeded locally. The player uses a simulated clock, and As
 
 ## Live Demo
 
-[Live Demo]([PASTE_DEPLOYED_URL_HERE](https://www.loom.com/share/ea05302c72504738ac40e2179991688e))
+[Live Demo](https://fanthom-theta.vercel.app)
 
 ## Core Features
 
